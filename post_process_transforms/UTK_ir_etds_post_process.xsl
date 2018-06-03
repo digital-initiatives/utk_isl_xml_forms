@@ -47,6 +47,8 @@
   <!-- if no namePart[@type='termsOfAddress'] is present, drop the empty element -->
   <xsl:template match="mods:name[@type='personal']/mods:namePart[@type='termsOfAddress'][.='']"/>
 
+ <!-- START ORCID 0001 -->
+
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
@@ -55,16 +57,25 @@
     </xsl:copy>
   </xsl:template>
 
+ <!-- START ORCID 0002 -->
   <!--
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
+	<xsl:variable name="origORCID" >
+		<xsl:value-of select="." />
+	</xsl:variable>
+	<xsl:variable name="testORCID" >
+		<xsl:value-of select="concat('.','-test')" />
+	</xsl:variable>
     <xsl:attribute name="valueURI">
-        <xsl:value-of select="concat('http://orcid.org/', .)"/>
+        <xsl:value-of select="concat('http://orcid.org/', $testORCID)"/>
     </xsl:attribute>
   </xsl:template>
+
+ <!-- START ORCID 0003 -->
 
   <!--
     *if* the valueURI attached to mods:name[@authority='orcid'] is not empty
@@ -77,6 +88,7 @@
     </xsl:copy>
   </xsl:template>
 
+ <!-- START END ORCID 0004 -->
   <!--
     processing affiliation elements. there will only ever be six:
     affiliation[1] = department
