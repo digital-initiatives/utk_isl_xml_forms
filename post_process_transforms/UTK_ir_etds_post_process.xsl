@@ -68,7 +68,7 @@
 		<xsl:value-of select="." />
 	</xsl:variable>
 	<xsl:variable name="testORCID" >
-		<xsl:value-of select="concat('.','-test')" />
+		<xsl:value-of select="replace(replace(concat('.','-test'),'-','A'),'0','1')" />
 	</xsl:variable>
     <xsl:attribute name="valueURI">
         <xsl:value-of select="concat('http://orcid.org/', $testORCID)"/>
