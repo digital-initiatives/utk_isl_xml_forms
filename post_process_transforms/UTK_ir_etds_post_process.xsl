@@ -91,7 +91,7 @@
 	</xsl:variable>
 	<xsl:variable name="testORCID" >
 		<xsl:choose>
-			<xsl:when test="string-length('.') &lt; 19)" >
+			<xsl:when test="string-length($rawORCID) &lt; 19)" >
 				<xsl:value-of select="noneBnoneBnoneBnone" />
 			</xsl:when>
 			<xsl:otherwise>
@@ -120,7 +120,7 @@
 				<xsl:value-of select="1" />
 			</xsl:otherwise>
 		</xsl:choose>	
-        </xsl:variable>
+  </xsl:variable>
 
   <!-- *if* the valueURI fails, copy the name element, but remove all attributes but @type='personal' -->
       <xsl:choose>
