@@ -50,7 +50,7 @@
  <!-- START ORCID 0001 -->
 
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
-  <!-- disable
+  <!-- disable; but used at bottom of template
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
       <xsl:apply-templates select="@type"/>
@@ -120,11 +120,25 @@
 				<xsl:value-of select="1" />
 			</xsl:otherwise>
 		</xsl:choose>	
-	
         </xsl:variable>
-    <xsl:attribute name="valueURI">
-        <xsl:value-of select="concat('http://orcid.org/', $ORCID)"/>
-    </xsl:attribute>
+
+  <!-- *if* the valueURI fails, copy the name element, but remove all attributes but @type='personal' -->
+      <xsl:choose>
+    	<xsl:when test="$errorExist &gt; 0">
+    		<xsl:copy>
+      			<xsl:apply-templates select="@type"/>
+      			<xsl:apply-templates/>
+    		</xsl:copy>
+  	</xsl:when>
+  	<xsl:otherwise>
+    		<xsl:attribute name="valueURI"> 
+			<xsl:value-of select="concat('http://orcid.org/', $ORCID)"/>
+    		</xsl:attribute>
+    		<xsl:copy>
+      			<xsl:apply-templates/>
+    		</xsl:copy>
+  	</xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
  <!-- START ORCID 0003 -->
@@ -134,7 +148,7 @@
     AND starts with 'http://orcid.org', use the default template rules to copy
     the valueURI attribute.
   -->
-  <!-- disable
+  <!-- disable; but use above
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (starts-with(.,'http://orcid.org'))]">
     <xsl:copy>
       <xsl:apply-templates/>
