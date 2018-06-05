@@ -47,115 +47,36 @@
   <!-- if no namePart[@type='termsOfAddress'] is present, drop the empty element -->
   <xsl:template match="mods:name[@type='personal']/mods:namePart[@type='termsOfAddress'][.='']"/>
 
- <!-- START ORCID 0001 -->
-
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
-  <!-- disable; but used at bottom of template
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
       <xsl:apply-templates select="@type"/>
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>
-   -->
 
- <!-- START ORCID 0002 -->
   <!--
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
   -->
-
-  <!-- disable the condition, too limiting 
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-   -->
-
-  <!-- one template for all 3 cases 
-	1. empty case
-	2. 19 char orcid
-	3. http://orcid.org/ + 19 char orcid
-
-        Chop prefix off #3 and turn it into #2.
-	To test:
-		0 is not a number, change all 0s to 1s.
-		"-" followed by digits is a number, change all "-" to "A"
-		You are testing for validity not for value.
-   -->
-  <xsl:template match="mods:name[@authority='orcid']/@valueURI">
-   
-	<xsl:variable name="rawORCID" >
-		<xsl:value-of select="." />
-	</xsl:variable>
-	<xsl:variable name="origORCID" >
-		<xsl:value-of select="replace($rawORCID,'http://orcid.org/','')" />
-	</xsl:variable>
-	<xsl:variable name="testORCID" >
-		<xsl:choose>
-			<xsl:when test="string-length($rawORCID) &lt; 19)" >
-				<xsl:value-of select="noneBnoneBnoneBnone" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="replace(replace(concat('.','-test'),'-','A'),'0','1')" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-	<xsl:variable name="numb1"   select="substring($testORCID,1,4)" />
-	<xsl:variable name="numb2"   select="substring($testORCID, 6,4)" />
-	<xsl:variable name="numb3"   select="substring($testORCID,11,4)" />
-	<xsl:variable name="numb4"   select="substring($testORCID,16,4)" />
-	<xsl:variable name="numbAll" select="concat($numb1,$numb2,$numb3,$numb4)" />
-	<xsl:variable name="dash1"   select="substring($testORCID, 5,1)" />
-	<xsl:variable name="dash2"   select="substring($testORCID,10,1)" />
-	<xsl:variable name="dash3"   select="substring($testORCID,15,1)" />
-	<xsl:variable name="dashAll" select="concat($dash1,$dash2,$dash3)" />
-	<xsl:variable name="errorExist" >
-		<xsl:choose>
-			<xsl:when test="number($numbAll) != NaN" >
-				<xsl:value-of select="0" />
-			</xsl:when>
-			<xsl:when test="contains($dashAll,'AAA') != false" >
-				<xsl:value-of select="0" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="1" />
-			</xsl:otherwise>
-		</xsl:choose>	
-  </xsl:variable>
-
-  <!-- *if* the valueURI fails, copy the name element, but remove all attributes but @type='personal' -->
-      <xsl:choose>
-    	<xsl:when test="$errorExist &gt; 0">
-    		<xsl:copy>
-      			<xsl:apply-templates select="@type"/>
-      			<xsl:apply-templates/>
-    		</xsl:copy>
-  	</xsl:when>
-  	<xsl:otherwise>
-    		<xsl:attribute name="valueURI"> 
-			<xsl:value-of select="concat('http://orcid.org/', $ORCID)"/>
-    		</xsl:attribute>
-    		<xsl:copy>
-      			<xsl:apply-templates/>
-    		</xsl:copy>
-  	</xsl:otherwise>
-    </xsl:choose>
+    <xsl:attribute name="valueURI">
+        <xsl:value-of select="concat('http://orcid.org/', .)"/>
+    </xsl:attribute>
   </xsl:template>
-
- <!-- START ORCID 0003 -->
 
   <!--
     *if* the valueURI attached to mods:name[@authority='orcid'] is not empty
     AND starts with 'http://orcid.org', use the default template rules to copy
     the valueURI attribute.
   -->
-  <!-- disable; but use above
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (starts-with(.,'http://orcid.org'))]">
     <xsl:copy>
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>
-   -->
- <!-- START END ORCID 0004 -->
+
   <!--
     processing affiliation elements. there will only ever be six:
     affiliation[1] = department
