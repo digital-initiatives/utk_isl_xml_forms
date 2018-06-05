@@ -69,7 +69,7 @@
 		<xsl:value-of select="." />
 	</xsl:variable>
 	<xsl:variable name="origORCID" >
-		<xsl:value-of select="replace($rawORCID,'http://orcid.org/','')" />
+		<xsl:value-of select="substring($rawORCID,18,19)" />
 	</xsl:variable>
 	<xsl:variable name="testORCID" >
 		<xsl:choose>
