@@ -77,7 +77,7 @@
 				<xsl:value-of select="noneBnoneBnoneBnone" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="replace(replace(concat('.','-test'),'-','A'),'0','1')" />
+				<xsl:value-of select="concat($testORCID,'-test')" />
 			</xsl:otherwise>
     </xsl:choose>
 	</xsl:variable>
