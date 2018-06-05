@@ -52,21 +52,37 @@
 <!-- START ORCID 0000 -->
 
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
+   <!--  disable
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
       <xsl:apply-templates select="@type"/>
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>
+   -->
 
   <!--
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
   -->
-  <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
+  <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='x')) and (not(starts-with(.,'xyzhttp://orcid.org')))]">
+	<xsl:variable name="rawORCID" >
+		<xsl:value-of select="." />
+	</xsl:variable>
+	<xsl:variable name="origORCID" >
+		<xsl:value-of select="replace($rawORCID,'http://orcid.org/','')" />
+	</xsl:variable>
+	<xsl:variable name="testORCID" >
+		<xsl:choose>
+			<xsl:when test="string-length($rawORCID) &lt; 19)" >
+				<xsl:value-of select="noneBnoneBnoneBnone" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="replace(replace(concat('.','-test'),'-','A'),'0','1')" />
+			</xsl:otherwise>
     <xsl:attribute name="valueURI">
-        <xsl:value-of select="concat('http://orcid.org/', .,'-test')"/>
+        <xsl:value-of select="concat('http://orcid.org/', $testORCID,'-test')"/>
     </xsl:attribute>
   </xsl:template>
 
