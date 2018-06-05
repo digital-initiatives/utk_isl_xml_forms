@@ -68,16 +68,16 @@
 	<xsl:variable name="rawORCID" >
 		<xsl:value-of select="." />
 	</xsl:variable>
-	<xsl:variable name="origORCID" >
-		<xsl:value-of select="substring($rawORCID,18,19)" />
-	</xsl:variable>
 	<xsl:variable name="testORCID" >
 		<xsl:choose>
+			<xsl:when test="contains($rawORCID,'http://orcid.org/')" >
+				<xsl:value-of select="substring($rawORCID,18,19)" />
+			</xsl:when>
 			<xsl:when test="contains($rawORCID,'xyz')" >
 				<xsl:value-of select="noneBnoneBnoneBnone" />
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="concat($testORCID,'-test')" />
+				<xsl:value-of select="." />
 			</xsl:otherwise>
     </xsl:choose>
 	</xsl:variable>
