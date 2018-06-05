@@ -52,21 +52,19 @@
 <!-- START ORCID 0000 -->
 
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
-   <!--  disable
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
       <xsl:apply-templates select="@type"/>
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>
-   -->
 
   <!--
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
   -->
-  <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='x')) and (not(starts-with(.,'xyzhttp://orcid.org')))]">
+  <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
 	<xsl:variable name="rawORCID" >
 		<xsl:value-of select="." />
 	</xsl:variable>
