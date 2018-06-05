@@ -47,6 +47,10 @@
   <!-- if no namePart[@type='termsOfAddress'] is present, drop the empty element -->
   <xsl:template match="mods:name[@type='personal']/mods:namePart[@type='termsOfAddress'][.='']"/>
 
+
+
+<!-- START ORCID 0000 -->
+
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
@@ -62,7 +66,7 @@
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
     <xsl:attribute name="valueURI">
-        <xsl:value-of select="concat('http://orcid.org/', .)"/>
+        <xsl:value-of select="concat('http://orcid.org/', .,'-test')"/>
     </xsl:attribute>
   </xsl:template>
 
