@@ -119,7 +119,7 @@
 		<xsl:variable name="dashALL" select="concat($dash1,$dash2,$dash3)" />
 		<xsl:variable name="errorExist">
 			<xsl:choose>
-				<xsl:when test="contains($dashALL,'---') and contains($numbErrorALL,'0000')=true" >
+				<xsl:when test="contains($dashALL,'---') and contains($numbErrorALL,'0000')" >
 					<xsl:value-of select="0" />
 				</xsl:when>
 				<xsl:otherwise>
