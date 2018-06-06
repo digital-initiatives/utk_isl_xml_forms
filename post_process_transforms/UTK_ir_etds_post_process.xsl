@@ -47,10 +47,6 @@
   <!-- if no namePart[@type='termsOfAddress'] is present, drop the empty element -->
   <xsl:template match="mods:name[@type='personal']/mods:namePart[@type='termsOfAddress'][.='']"/>
 
-
-
-<!-- START ORCID 0000 -->
-
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
@@ -63,27 +59,89 @@
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
+    ADD VALIDATION HERE.  TRAC-685.
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-	<xsl:variable name="rawORCID" >
-		<xsl:value-of select="." />
-	</xsl:variable>
-	<xsl:variable name="testORCID" >
-		<xsl:choose>
-			<xsl:when test="contains($rawORCID,'http://orcid.org/')" >
-				<xsl:value-of select="substring($rawORCID,18,19)" />
-			</xsl:when>
-			<xsl:when test="contains($rawORCID,'xyz')" >
-				<xsl:value-of select="noneBnoneBnoneBnone" />
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="." />
-			</xsl:otherwise>
-    </xsl:choose>
-	</xsl:variable>
-    <xsl:attribute name="valueURI">
-        <xsl:value-of select="concat('http://orcid.org/', $testORCID,'-test')"/>
-    </xsl:attribute>
+		<xsl:variable name="testORCID" select="." />
+		<xsl:variable name="numb1" select="substring($testORCID, 1,4)" />
+		<xsl:variable name="numb2" select="substring($testORCID, 6,4)" />
+		<xsl:variable name="numb3" select="substring($testORCID,11,4)" />
+		<xsl:variable name="numb4" select="substring($testORCID,16,4)" />
+		<xsl:variable name="dash1" select="substring($testORCID, 5,1)" />
+		<xsl:variable name="dash2" select="substring($testORCID,10,1)" />
+		<xsl:variable name="dash3" select="substring($testORCID,15,1)" />
+
+		<xsl:variable name="numbError1">
+			<xsl:choose>
+				<xsl:when test="number($numb1) != NaN" >
+					<xsl:value-of select="0" />`
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="numbError2">
+			<xsl:choose>
+				<xsl:when test="number($numb2) != NaN" >
+					<xsl:value-of select="0" />`
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="numbError3">
+			<xsl:choose>
+				<xsl:when test="number($numb3) != NaN" >
+					<xsl:value-of select="0" />`
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="numbError4">
+			<xsl:choose>
+				<xsl:when test="number($numb4) != NaN" >
+					<xsl:value-of select="0" />`
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable name="numbErrorALL" select="concat($numbError1,$numbError2,$numbError3,$numbError4)" />
+		<xsl:variable name="dashALL" select="concat($dash1,$dash2,$dash3)" />
+		<xsl:variable name="errorExist">
+			<xsl:choose>
+				<xsl:when test="contains($dashALL,'---') and contains($numbErrorALL,'0000')=true" >
+					<xsl:value-of select="0" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+	<xsl:choose>
+		<xsl:when  test="contains($errorExist,'0')" >
+				<xsl:attribute name="valueURI">
+					<xsl:value-of select="concat('http://orcid.org/', .)"/>
+				</xsl:attribute>
+				<xsl:apply-templates />
+		</xsl:when>
+		<xsl:otherwise>
+    	<xsl:copy>
+    	  <xsl:apply-templates select="@type"/>
+    	  <xsl:apply-templates/>
+    	</xsl:copy>
+		</xsl:otherwise>
+  </xsl:choose>
   </xsl:template>
 
   <!--
@@ -97,8 +155,7 @@
     </xsl:copy>
   </xsl:template>
 
-  <!--
-    processing affiliation elements. there will only ever be six:
+  <!-- processing affiliation elements. there will only ever be six:
     affiliation[1] = department
     affiliation[2] = department
     affiliation[3] = center
