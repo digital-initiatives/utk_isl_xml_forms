@@ -71,6 +71,7 @@
 		<xsl:variable name="dash2" select="substring($testORCID,10,1)" />
 		<xsl:variable name="dash3" select="substring($testORCID,15,1)" />
 
+    <!--
 		<xsl:variable name="numbError1">
 			<xsl:choose>
 				<xsl:when test="number($numb1) != NaN" >
@@ -119,7 +120,7 @@
 		<xsl:variable name="dashALL" select="concat($dash1,$dash2,$dash3)" />
 		<xsl:variable name="errorExist">
 			<xsl:choose>
-				<xsl:when test="contains($dashALL,'---') and contains($numbErrorALL,'0000')" >
+				<xsl:when test="contains($dashALL,'-x-x-') and contains($numbErrorALL,'0000')" >
 					<xsl:value-of select="0" />
 				</xsl:when>
 				<xsl:otherwise>
@@ -127,19 +128,42 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+ -->
+
+<!-- RETEST errorExist -->
+
+
+		<xsl:variable name="numb1" select="substring($testORCID, 1,4)" />
+		<xsl:variable name="errorExist">
+			<xsl:choose>
+				<xsl:when test="number($numb1) != Nan">
+					<xsl:value-of select ="0" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="1" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
 
 	<xsl:choose>
 		<xsl:when  test="contains($errorExist,'0')" >
 				<xsl:attribute name="valueURI">
-					<xsl:value-of select="concat('http://orcid.org/', .)"/>
+					<xsl:value-of select="concat('http://orcid.org/', .,' - errorExist=',$errorExist)"/>
 				</xsl:attribute>
 				<xsl:apply-templates />
 		</xsl:when>
 		<xsl:otherwise>
+				<xsl:attribute name="valueURI">
+					<xsl:value-of select="concat('http://orcid.org/', .,' - errorExist=',$errorExist)"/>
+				</xsl:attribute>
+				<xsl:apply-templates />
+       <!-- 
     	<xsl:copy>
     	  <xsl:apply-templates select="@type"/>
     	  <xsl:apply-templates/>
     	</xsl:copy>
+				-->
 		</xsl:otherwise>
   </xsl:choose>
   </xsl:template>
