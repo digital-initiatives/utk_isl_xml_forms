@@ -62,7 +62,7 @@
     ADD VALIDATION HERE.  TRAC-685.
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-		<xsl:variable name="testORCID" select="." />
+		<xsl:variable name="testORCID" select="translate(.,'0','9')" />
      <!--
 		<xsl:variable name="numb1" select="substring($testORCID, 1,4)" />
 		<xsl:variable name="numb2" select="substring($testORCID, 6,4)" />
@@ -133,39 +133,12 @@
 <!-- RETEST errorExist -->
 
 
-		<xsl:variable name="numb1" select="substring($testORCID, 1,4)" />
-		<xsl:variable name="errorExist">
-			<xsl:choose>
-				<xsl:when test="number($numb1) != Nan">
-					<xsl:value-of select ="0" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="1" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 
 
-	<xsl:choose>
-		<xsl:when  test="contains($errorExist,'0')" >
 				<xsl:attribute name="valueURI">
-					<xsl:value-of select="concat('http://orcid.org/', .,' - errorExist=',$errorExist)"/>
+					<xsl:value-of select="concat('http://orcid.org/', $testORCID,' - ', .)"/>
 				</xsl:attribute>
 				<xsl:apply-templates />
-		</xsl:when>
-		<xsl:otherwise>
-				<xsl:attribute name="valueURI">
-					<xsl:value-of select="concat('http://orcid.org/', .,' - errorExist=',$errorExist)"/>
-				</xsl:attribute>
-				<xsl:apply-templates />
-       <!-- 
-    	<xsl:copy>
-    	  <xsl:apply-templates select="@type"/>
-    	  <xsl:apply-templates/>
-    	</xsl:copy>
-				-->
-		</xsl:otherwise>
-  </xsl:choose>
   </xsl:template>
 
   <!--
