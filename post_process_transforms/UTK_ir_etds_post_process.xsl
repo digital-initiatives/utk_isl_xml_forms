@@ -63,6 +63,7 @@
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
 		<xsl:variable name="testORCID" select="." />
+     <!--
 		<xsl:variable name="numb1" select="substring($testORCID, 1,4)" />
 		<xsl:variable name="numb2" select="substring($testORCID, 6,4)" />
 		<xsl:variable name="numb3" select="substring($testORCID,11,4)" />
@@ -71,7 +72,6 @@
 		<xsl:variable name="dash2" select="substring($testORCID,10,1)" />
 		<xsl:variable name="dash3" select="substring($testORCID,15,1)" />
 
-    <!--
 		<xsl:variable name="numbError1">
 			<xsl:choose>
 				<xsl:when test="number($numb1) != NaN" >
