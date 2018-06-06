@@ -75,22 +75,14 @@
 		<xsl:attribute name="valueURI">
 			<xsl:choose>
 				<xsl:when test="match($testORCID8,'9999-9999-9999-9999') ">
-					<xsl:value-of select="concat('http://orcid.org/',.,' - validation success')" />
+					<xsl:value-of select="concat('http://orcid.org/',.,'-success')" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="concat('http://orcid.org/',.,' - validation failure')" />
+					<xsl:value-of select="concat('http://orcid.org/',.,'-failure')" />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:attribute>
-
-
-<!-- RETEST errorExist -->
-
-
-
-
-
-				<xsl:apply-templates />
+		<xsl:apply-templates />
   </xsl:template>
 
   <!--
