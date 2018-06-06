@@ -79,9 +79,7 @@
 						<xsl:attribute name="valueURI">
 								<xsl:value-of select="concat('http://orcid.org/',.)" />
 						</xsl:attribute> 
-						<xsl:copy>
 						<xsl:apply-tempates />
-						</xsl:copy>
 					</xsl:when>
 
 					<xsl:otherwise>
