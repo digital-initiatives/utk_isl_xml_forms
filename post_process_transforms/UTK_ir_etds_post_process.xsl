@@ -62,81 +62,25 @@
     ADD VALIDATION HERE.  TRAC-685.
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-		<xsl:variable name="testORCID" select="translate(.,'0','9')" />
-     <!--
-		<xsl:variable name="numb1" select="substring($testORCID, 1,4)" />
-		<xsl:variable name="numb2" select="substring($testORCID, 6,4)" />
-		<xsl:variable name="numb3" select="substring($testORCID,11,4)" />
-		<xsl:variable name="numb4" select="substring($testORCID,16,4)" />
-		<xsl:variable name="dash1" select="substring($testORCID, 5,1)" />
-		<xsl:variable name="dash2" select="substring($testORCID,10,1)" />
-		<xsl:variable name="dash3" select="substring($testORCID,15,1)" />
+		<xsl:variable name="testORCID0" select="translate(.,'0','9')" />
+		<xsl:variable name="testORCID1" select="translate($testORCID0,'1','9')" />
+		<xsl:variable name="testORCID2" select="translate($testORCID1,'2','9')" />
+		<xsl:variable name="testORCID3" select="translate($testORCID2,'3','9')" />
+		<xsl:variable name="testORCID4" select="translate($testORCID3,'4','9')" />
+		<xsl:variable name="testORCID5" select="translate($testORCID4,'5','9')" />
+		<xsl:variable name="testORCID6" select="translate($testORCID5,'6','9')" />
+		<xsl:variable name="testORCID7" select="translate($testORCID6,'7','9')" />
+		<xsl:variable name="testORCID8" select="translate($testORCID7,'8','9')" />
 
-		<xsl:variable name="numbError1">
-			<xsl:choose>
-				<xsl:when test="number($numb1) != NaN" >
-					<xsl:value-of select="0" />`
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="1" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="numbError2">
-			<xsl:choose>
-				<xsl:when test="number($numb2) != NaN" >
-					<xsl:value-of select="0" />`
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="1" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="numbError3">
-			<xsl:choose>
-				<xsl:when test="number($numb3) != NaN" >
-					<xsl:value-of select="0" />`
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="1" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="numbError4">
-			<xsl:choose>
-				<xsl:when test="number($numb4) != NaN" >
-					<xsl:value-of select="0" />`
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="1" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="numbErrorALL" select="concat($numbError1,$numbError2,$numbError3,$numbError4)" />
-		<xsl:variable name="dashALL" select="concat($dash1,$dash2,$dash3)" />
-		<xsl:variable name="errorExist">
-			<xsl:choose>
-				<xsl:when test="contains($dashALL,'-x-x-') and contains($numbErrorALL,'0000')" >
-					<xsl:value-of select="0" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="1" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
- -->
 
 <!-- RETEST errorExist -->
 
 
 
 
+
 				<xsl:attribute name="valueURI">
-					<xsl:value-of select="concat('http://orcid.org/', $testORCID,' - ', .)"/>
+					<xsl:value-of select="concat('http://orcid.org/', $testORCID8,' - ', .)"/>
 				</xsl:attribute>
 				<xsl:apply-templates />
   </xsl:template>
