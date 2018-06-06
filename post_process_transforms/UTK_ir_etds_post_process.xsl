@@ -62,7 +62,6 @@
     ADD VALIDATION HERE.  TRAC-685.
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-		<xsl:variable name="failORCID"  select="concat(.,'-fail')" />
 		<xsl:variable name="testORCID0" select="translate(.,'0','9')" />
 		<xsl:variable name="testORCID1" select="translate($testORCID0,'1','9')" />
 		<xsl:variable name="testORCID2" select="translate($testORCID1,'2','9')" />
@@ -73,17 +72,26 @@
 		<xsl:variable name="testORCID7" select="translate($testORCID6,'7','9')" />
 		<xsl:variable name="testORCID8" select="translate($testORCID7,'8','9')" />
 
-		<xsl:attribute name="valueURI">
+
 			<xsl:choose>
-				<xsl:when test="match($testORCID8,'9999-9999-9999-9999') ">
-					<xsl:value-of select="concat('http://orcid.org/',.)" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="concat('http://orcid.org/',$failORCID)" />
+
+				<xsl:when test="match($testORCID8,'9999-9999-9999-9999')">
+						<xsl:attribute name="valueURI">
+								<xsl:value-of select="concat('http://orcid.org/',.)" />
+						</xsl:attribute> 
+						<xsl:copy>
+						<xsl:apply-tempates />
+						</xsl:copy>
+					</xsl:when>
+
+					<xsl:otherwise>
+				    <xsl:copy>
+				      <xsl:apply-templates select="@type"/>
+				    </xsl:copy>
 				</xsl:otherwise>
+
 			</xsl:choose>
-		</xsl:attribute>
-		<xsl:apply-templates />
+
   </xsl:template>
 
   <!--
