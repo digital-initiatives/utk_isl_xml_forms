@@ -72,6 +72,17 @@
 		<xsl:variable name="testORCID7" select="translate($testORCID6,'7','9')" />
 		<xsl:variable name="testORCID8" select="translate($testORCID7,'8','9')" />
 
+		<xsl:attribute name="valueURI">
+			<xsl:choose>
+				<xsl:when test="match($testORCID8,'9999-9999-9999-9999') ">
+					<xsl:value-of select="concat('http://orcid.org/',.,' - validation success')" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="concat('http://orcid.org/',.,' - validation failure')" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:attribute>
+
 
 <!-- RETEST errorExist -->
 
@@ -79,9 +90,6 @@
 
 
 
-				<xsl:attribute name="valueURI">
-					<xsl:value-of select="concat('http://orcid.org/', $testORCID8,' - ', .)"/>
-				</xsl:attribute>
 				<xsl:apply-templates />
   </xsl:template>
 
