@@ -72,13 +72,13 @@
 		<xsl:variable name="testORCID6" select="translate($testORCID5,'6','9')" />
 		<xsl:variable name="testORCID7" select="translate($testORCID6,'7','9')" />
 		<xsl:variable name="testORCID8" select="translate($testORCID7,'8','9')" />
+		<xsl:variable name="testORCID9" select="concat($testORCID8,'-valid')" />
 
 
 		<xsl:attribute name="valueURI" select="concat('http://orcid.org/',.)" />
 
- ¬
 		 <xsl:choose>¬
-			 <xsl:when test="contains($testORCID8,'9999-9999-9999-9999')">¬
+			 <xsl:when test="contains($testORCID9,'9999-9999-9999-9999-valid')">¬
 				 <xsl:apply-templates />¬
 				</xsl:when>¬
 				<xsl:otherwise>¬
