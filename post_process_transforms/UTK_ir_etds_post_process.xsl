@@ -61,15 +61,6 @@
     in this template. this overrides the default identity transform.
     ADD VALIDATION HERE.  TRAC-685.
     
-		 <xsl:choose>¬
-			 <xsl:when test="contains($testORCID9,'9999-9999-9999-9999-valid')">¬
-				 <xsl:apply-templates />¬
-				</xsl:when>¬
-				<xsl:otherwise>¬
-					<xsl:apply-templates select="@type"/>¬
-				</xsl:otherwise>
-		 </xsl:choose>
-
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
 		<xsl:variable name="testORCID0" select="translate(.,'0','9')" />
@@ -95,7 +86,6 @@
 				</xsl:otherwise>
 		 </xsl:choose>
 
-	 <xsl:apply-templates />
 
   </xsl:template>
 
