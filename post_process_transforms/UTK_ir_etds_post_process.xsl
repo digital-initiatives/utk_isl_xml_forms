@@ -83,7 +83,7 @@
 		<xsl:variable name="finalORCID"  >
 			<xsl:choose>
 				<xsl:when test="match($testORCID8,'9999-9999-9999-9999')">
-					<xsl:value-of select="concat(.,'-pass')"` />
+					<xsl:value-of select="concat(.,'-pass')" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="concat(.,'-fail')" />
