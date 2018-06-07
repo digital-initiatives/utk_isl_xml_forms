@@ -84,7 +84,7 @@
 		<xsl:variable name="testORCID9" select="concat($testORCID8,'-valid')" />
 
 
-		<xsl:attribute name="valueURI" select="concat('http://orcid.org/',.)" />
+		<xsl:attribute name="valueURI" select="concat('http://orcid.org/',$testORCID9)" />
 
 				 <xsl:apply-templates />¬
 
