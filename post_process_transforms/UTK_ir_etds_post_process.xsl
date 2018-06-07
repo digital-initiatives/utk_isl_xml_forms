@@ -78,7 +78,7 @@
 
  ¬
 		 <xsl:choose>¬
-			 <xsl:when test="match($testORCID8,'9999-9999-9999-9999')">¬
+			 <xsl:when test="contains($testORCID8,'9999-9999-9999-9999')">¬
 				 <xsl:apply-templates />¬
 				</xsl:when>¬
 				<xsl:otherwise>¬
