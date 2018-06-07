@@ -84,10 +84,18 @@
 		<xsl:variable name="testORCID9" select="concat($testORCID8,'-valid')" />
 
 
-		<xsl:attribute name="valueURI" select="concat('http://orcid.org/',$testORCID9)" />
+		<xsl:attribute name="valueURI" select="concat('http://orcid.org/',.)" />
 
-				 <xsl:apply-templates />¬
+		 <xsl:choose>
+			 <xsl:when test="contains($testORCID9,'9999-9999-9999-9999-valid')">
+				 <xsl:apply-templates />
+				</xsl:when>¬
+				<xsl:otherwise>
+					<xsl:apply-templates select="@type"/>
+				</xsl:otherwise>
+		 </xsl:choose>
 
+	 <xsl:apply-templates />
 
   </xsl:template>
 
