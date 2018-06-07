@@ -61,13 +61,6 @@
     in this template. this overrides the default identity transform.
     ADD VALIDATION HERE.  TRAC-685.
     
-    path:
-			path:  $DRUPAL_HOME/sites/all/modules/
-		islandora_xml_forms/builder/self_transforms/UTK_ir_etds_post_process.xsl
-
-			revise:
-			vagrant ssh
-			cp UTK_ir_etds_post_process.xsl $DRUPAL_HOME/sites/all/modules/isl_xml_forms/builder/self_transforms/ `
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
 		<xsl:variable name="testORCID0" select="translate(.,'0','9')" />
@@ -80,34 +73,19 @@
 		<xsl:variable name="testORCID7" select="translate($testORCID6,'7','9')" />
 		<xsl:variable name="testORCID8" select="translate($testORCID7,'8','9')" />
 
-		<xsl:variable name="finalORCID"  >
-			<xsl:choose>
-				<xsl:when test="match($testORCID8,'9999-9999-9999-9999')">
-					<xsl:value-of select="concat(.,'-pass')" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="concat(.,'-fail')" />
+
+		<xsl:attribute name="valueURI" select="concat('http://orcid.org/',.)" />
+
+ ¬
+		 <xsl:choose>¬
+			 <xsl:when test="match($testORCID8,'9999-9999-9999-9999')">¬
+				 <xsl:apply-templates />¬
+				</xsl:when>¬
+				<xsl:otherwise>¬
+					<xsl:apply-templates select="@type"/>¬
 				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
+		 </xsl:choose>
 
-
-
-			<!--
-			      if VALID ORCID:
-						<xsl:attribute name="valueURI">
-								<xsl:value-of select="concat('http://orcid.org/',.)" />
-						</xsl:attribute> 
-						<xsl:apply-tempates />
-
-						if INVALID ORCID:
-				      <xsl:apply-templates select="@type"/>
-
-			-->
-						<xsl:attribute name="valueURI">
-								<xsl:value-of select="concat('http://orcid.org/',.)" />
-						</xsl:attribute> 
-						<xsl:apply-tempates />
 
   </xsl:template>
 
