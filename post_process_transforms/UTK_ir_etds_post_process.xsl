@@ -94,25 +94,18 @@
 
 
 			<!--
-			<xsl:choose>
-
-				<xsl:when test="match($testORCID8,'9999-9999-9999-9999')">
+			      if VALID ORCID:
 						<xsl:attribute name="valueURI">
 								<xsl:value-of select="concat('http://orcid.org/',.)" />
 						</xsl:attribute> 
 						<xsl:apply-tempates />
-					</xsl:when>
 
-					<xsl:otherwise>
-				    <xsl:copy>
+						if INVALID ORCID:
 				      <xsl:apply-templates select="@type"/>
-				    </xsl:copy>
-				</xsl:otherwise>
 
-			</xsl:choose>
 			-->
 						<xsl:attribute name="valueURI">
-								<xsl:value-of select="concat('http://orcid.org/',$finalORCID)" />
+								<xsl:value-of select="concat('http://orcid.org/',.)" />
 						</xsl:attribute> 
 						<xsl:apply-tempates />
 
