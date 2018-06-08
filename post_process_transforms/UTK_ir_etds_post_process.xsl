@@ -59,32 +59,26 @@
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
+    ADD VALIDATION HERE.  TRAC-685.
+    
   -->
-  <!-- replace original template below
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-    <xsl:attribute name="valueURI">
-        <xsl:value-of select="concat('http://orcid.org/', .)"/>
-    </xsl:attribute>
+		<xsl:variable name="testORCID0" select="translate(.,'0','9')" />
+		<xsl:variable name="testORCID1" select="translate($testORCID0,'1','9')" />
+		<xsl:variable name="testORCID2" select="translate($testORCID1,'2','9')" />
+		<xsl:variable name="testORCID3" select="translate($testORCID2,'3','9')" />
+		<xsl:variable name="testORCID4" select="translate($testORCID3,'4','9')" />
+		<xsl:variable name="testORCID5" select="translate($testORCID4,'5','9')" />
+		<xsl:variable name="testORCID6" select="translate($testORCID5,'6','9')" />
+		<xsl:variable name="testORCID7" select="translate($testORCID6,'7','9')" />
+		<xsl:variable name="testORCID8" select="translate($testORCID7,'8','9')" />
+		<xsl:variable name="testORCID9" select="concat($testORCID8,'-valid')" />
+
+			 <xsl:if test="contains($testORCID9,'9999-9999-9999-9999-valid')">
+		     <xsl:attribute name="valueURI" select="concat('http://orcid.org/',.)" />
+			 </xsl:if>¬
 
   </xsl:template>
-  -->
-   <!-- bds templae here -->
-<xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-<xsl:variable name="vDigits" select="'0123456789'"/>
-<xsl:variable name="vID" select="."/>
-
-<xsl:if test="string-length(translate(substring($vID, 1, 4), $vDigits, '')) = 0
-and substring($vID, 5, 1) = '-'
-and string-length(translate(substring($vID, 6, 4), $vDigits, '')) = 0
-and substring($vID, 10, 1) = '-'
-and string-length(translate(substring($vID, 11, 4), $vDigits, '')) = 0
-and substring($vID, 15, 1) = '-'
-and string-length(translate(substring($vID, 16, 4), $vDigits, '')) = 0">
-<xsl:attribute name="valueURI">
-<xsl:value-of select="concat('http://orcid.org/', $vID)"/>
-</xsl:attribute>
-</xsl:if>
-</xsl:template>
 
   <!--
     *if* the valueURI attached to mods:name[@authority='orcid'] is not empty
@@ -97,8 +91,7 @@ and string-length(translate(substring($vID, 16, 4), $vDigits, '')) = 0">
     </xsl:copy>
   </xsl:template>
 
-  <!--
-    processing affiliation elements. there will only ever be six:
+  <!-- processing affiliation elements. there will only ever be six:
     affiliation[1] = department
     affiliation[2] = department
     affiliation[3] = center
