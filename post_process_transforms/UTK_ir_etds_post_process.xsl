@@ -59,37 +59,11 @@
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
-    ADD VALIDATION HERE.  TRAC-685.
-    
   -->
   <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
-		<xsl:variable name="testORCID0" select="translate(.,'0','9')" />
-		<xsl:variable name="testORCID1" select="translate($testORCID0,'1','9')" />
-		<xsl:variable name="testORCID2" select="translate($testORCID1,'2','9')" />
-		<xsl:variable name="testORCID3" select="translate($testORCID2,'3','9')" />
-		<xsl:variable name="testORCID4" select="translate($testORCID3,'4','9')" />
-		<xsl:variable name="testORCID5" select="translate($testORCID4,'5','9')" />
-		<xsl:variable name="testORCID6" select="translate($testORCID5,'6','9')" />
-		<xsl:variable name="testORCID7" select="translate($testORCID6,'7','9')" />
-		<xsl:variable name="testORCID8" select="translate($testORCID7,'8','9')" />
-		<xsl:variable name="testORCID9" select="concat($testORCID8,'-valid')" />
-
-
-		<xsl:attribute name="valueURI" select="concat('http://orcid.org/',.)" />
-
-     <!--
-		 <xsl:choose>
-			 <xsl:when test="contains($testORCID9,'9999-9999-9999-9999-valid')">
-				 <xsl:apply-templates />
-				</xsl:when>¬
-				<xsl:otherwise>
-					<xsl:apply-templates select="@type"/>
-				</xsl:otherwise>
-		 </xsl:choose>
-			-->
-
-
- <xsl:apply-templates />
+    <xsl:attribute name="valueURI">
+        <xsl:value-of select="concat('http://orcid.org/', .)"/>
+    </xsl:attribute>
   </xsl:template>
 
   <!--
@@ -103,7 +77,8 @@
     </xsl:copy>
   </xsl:template>
 
-  <!-- processing affiliation elements. there will only ever be six:
+  <!--
+    processing affiliation elements. there will only ever be six:
     affiliation[1] = department
     affiliation[2] = department
     affiliation[3] = center
