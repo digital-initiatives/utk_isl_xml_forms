@@ -58,14 +58,14 @@
 	<xml:variable name="prefix"    select="http://orcid.org/" />
 	<xml:variable name="testORCID" select="concat(.,$suffix)"/>
 	<xsl:choose>
-		<xsl:when test="starts-with($testORCID`,$suffix)" >
+		<xsl:when test="starts-with($testORCID,$suffix)" >
 		<!-- CASE 1 -->
     			<xsl:copy>
       				<xsl:apply-templates select="@type"/>
       				<xsl:apply-templates/>
     			</xsl:copy>
 		</xsl:when>
-		<xsl:when test="starts-with($testORCID`,$prefix)" >
+		<xsl:when test="starts-with($testORCID,$prefix)" >
 		 <!-- CASE 2 -->
     			<xsl:copy>
       				<xsl:apply-templates/>
