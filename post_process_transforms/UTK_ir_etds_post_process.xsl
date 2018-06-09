@@ -53,7 +53,7 @@
      	 2. the valueURI starts with 'http://orcid.org/'' 
 	 3. 19 char raw orcid value, this one needs validation.     
    -->
-  <xsl:template match="mods:name[@authority='orcid'][@valueURI=['*']">
+  <xsl:template match="mods:name[@authority='orcid'][@valueURI='*']">
 	<xml:variable name="suffix"    select="LAST" />
 	<xml:variable name="prefix"    select="http://orcid.org/" />
 	<xml:variable name="testORCID" select="concat(.,$suffix)"/>
