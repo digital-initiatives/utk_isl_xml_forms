@@ -47,7 +47,7 @@
   <!-- if no namePart[@type='termsOfAddress'] is present, drop the empty element -->
   <xsl:template match="mods:name[@type='personal']/mods:namePart[@type='termsOfAddress'][.='']"/>
 
-  <!-- ORCID VALIDATION TRAC-685
+  <!-- ORCID VALIDATION TRAC-685    
 	ALL THREE CASES:	
 	 1. the valueURI is empty, copy the name element, but remove all attributes but @type='personal'
      	 2. the valueURI starts with 'http://orcid.org/'' 
