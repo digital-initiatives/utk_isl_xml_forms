@@ -47,22 +47,32 @@
   <!-- if no namePart[@type='termsOfAddress'] is present, drop the empty element -->
   <xsl:template match="mods:name[@type='personal']/mods:namePart[@type='termsOfAddress'][.='']"/>
 
+<<<<<<< HEAD
 
   <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
 <!--
+=======
+ <!-- *if* the valueURI is empty, copy the name element, but remove all attributes but @type='personal' -->
+>>>>>>> eb8115f42f5e956d9d723297c712224109c53ba0
   <xsl:template match="mods:name[@authority='orcid'][@valueURI='']">
     <xsl:copy>
       <xsl:apply-templates select="@type"/>
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>
+<<<<<<< HEAD
 -->
 
   <!--
+=======
+	
+  <!--ORCID VALIDATION TRAC-685
+>>>>>>> eb8115f42f5e956d9d723297c712224109c53ba0
     *if* the @valueURI attached to mods:name[@authority='orcid'] is not
     empty AND does not start with 'http://orcid.org', process it separately
     in this template. this overrides the default identity transform.
   -->
+<<<<<<< HEAD
 <!--
 <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
 <xsl:variable name="vDigits" select="'0123456789'"/>
@@ -81,6 +91,31 @@ and string-length(translate(substring($vID, 16, 4), $vDigits, '')) = 0">
 </xsl:if>
 </xsl:template>
 -->
+=======
+  <xsl:template match="mods:name[@authority='orcid']/@valueURI[(not(.='')) and (not(starts-with(.,'http://orcid.org')))]">
+	  
+	<xsl:variable name="vDigits" select="'0123456789'"/>
+	<xsl:variable name="vID" select="."/>
+	<xsl:attribute name="valueURI">
+	   <xsl:choose>
+		  <xsl:when test="string-length(translate(substring($vID, 1, 4), $vDigits, '')) = 0
+		  and substring($vID, 5, 1) = '-'
+		  and string-length(translate(substring($vID, 6, 4), $vDigits, '')) = 0
+ 		  and substring($vID, 10, 1) = '-'
+		  and string-length(translate(substring($vID, 11, 4), $vDigits, '')) = 0
+		  and substring($vID, 15, 1) = '-'
+		  and string-length(translate(substring($vID, 16, 4), $vDigits, '')) = 0">
+			<xsl:value-of select="concat('http://orcid.org/', $vID)"/>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:value-of select="''"/>
+		</xsl:otherwise>
+	  </xsl:choose>
+	</xsl:attribute>
+																																						
+  </xsl:template>
+
+>>>>>>> eb8115f42f5e956d9d723297c712224109c53ba0
   <!--
     *if* the valueURI attached to mods:name[@authority='orcid'] is not empty
     AND starts with 'http://orcid.org', use the default template rules to copy
@@ -92,6 +127,7 @@ and string-length(translate(substring($vID, 16, 4), $vDigits, '')) = 0">
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>
+<<<<<<< HEAD
   -->
 
 <!--   TEST BDS TEMPLATE SUGGESTION -->
@@ -150,6 +186,10 @@ and string-length(translate(substring($vID, 16, 4), $vDigits, '')) = 0">
 
 
 <!--   END TEST BDS TEMPLATE SUGGESTION -->
+=======
+	
+	
+>>>>>>> eb8115f42f5e956d9d723297c712224109c53ba0
 
 
   <!--
